@@ -9,14 +9,6 @@
         href="https://cpwebassets.codepen.io/assets/favicon/apple-touch-icon-5ae1a0698dcc2402e9712f7d01ed509a57814f994c660df9f7a952f3060705ee.png" />
     <meta name="apple-mobile-web-app-title" content="CodePen">
 
-    <link rel="shortcut icon" type="image/x-icon"
-        href="https://cpwebassets.codepen.io/assets/favicon/favicon-aec34940fbc1a6e787974dcd360f2c6b63348d4b1f4e06c77743096d55480f33.ico" />
-
-    <link rel="mask-icon" type=""
-        href="https://cpwebassets.codepen.io/assets/favicon/logo-pin-8f3771b1072e3c38bd662872f6b673a722f4b3ca2421637d5596661b4e2132cc.svg"
-        color="#111" />
-
-
     <title>CodePen - Markdown Editor with Codemirror and AlpineJS</title>
     <link rel="stylesheet" href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" />
     <link rel="stylesheet" href="https://unpkg.com/@tailwindcss/typography@0.2.x/dist/typography.min.css" />
@@ -72,18 +64,6 @@
         }
     </style>
 
-    <script>
-        window.console = window.console || function (t) { };
-    </script>
-
-
-
-    <script>
-        if (document.location.search.match(/type=embed/gi)) {
-            window.parent.postMessage("resize", "*");
-        }
-    </script>
-
 
 </head>
 
@@ -138,16 +118,31 @@
         <div class="mt-6 text-gray-500 text-sm text-center">Created by <a class="text-indigo-500 underline"
                 href="https://twitter.com/mithicher">@mithicher</a>.</div>
     </div>
-    <script
-        src="https://cpwebassets.codepen.io/assets/common/stopExecutionOnTimeout-1b93190375e9ccc259df3a57c1abc0e64599724ae30d7ea4c6877eb615f89387.js"></script>
 
     <script src='https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.8.0/dist/alpine.min.js'></script>
     <script src='https://cdn.jsdelivr.net/npm/codemirror@5.59.2/lib/codemirror.min.js'></script>
     <script src='https://cdn.jsdelivr.net/npm/codemirror@5.59.2/mode/markdown/markdown.js'></script>
     <script src='https://cdn.jsdelivr.net/npm/turndown@7.0.0/dist/turndown.min.js'></script>
-    <script src='https://unpkg.com/marked@0.3.6/lib/marked.js'></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/marked/3.0.2/marked.min.js'></script>
     <script id="rendered-js">
         function markdown() {
+
+            const renderer = {
+                heading(text, level) {
+                    const escapedText = text.toLowerCase().replace(/[^\w]+/g, '-');
+
+                    return `
+            <h${level}>
+              <a name="${escapedText}" class="anchor" href="#${escapedText}">
+                <span class="header-link"></span>
+              </a>
+              ${text}
+            </h${level}>`;
+                }
+            };
+
+            marked.use({ renderer });
+
             return {
                 height: '500px',
                 tab: 'write',
@@ -155,45 +150,57 @@
                 showConvertedMarkdown: false,
                 convertedContent: '',
                 convertedMarkdown() {
+                    // marked setting
+
                     this.showConvertedMarkdown = true;
                     this.convertedContent = marked(this.content, { sanitize: true });
                 },
                 convertHtmlToMarkdown() {
-                    turndownService = new TurndownService({
-                        headingStyle: 'atx',
-                        codeBlockStyle: 'fenced'
-                    });
+                    // turndownService = new TurndownService({
+                    //     headingStyle: 'atx',
+                    //     codeBlockStyle: 'fenced'
+                    // });
+                    this.content = `
+# This is head.
 
+Marked - Markdown Parser
+========================
 
-                    this.content = turndownService.turndown(`
-						<h1 id="sample-markdown">Sample Markdown</h1>
-						<p>This is some basic, sample markdown.</p>
-						<h2 id="second-heading">Second Heading</h2>
-						<ul>
-						<li>Unordered lists, and:<ol>
-						<li>One</li>
-						<li>Two</li>
-						<li>Three</li>
-						</ol>
-						</li>
-						<li>More</li>
-						</ul>
-						<blockquote>
-						<p>Blockquote</p>
-						</blockquote>
-						<p>And <strong>bold</strong>, <em>italics</em>, and even <em>italics and later <strong>bold</strong></em>. Even <del>strikethrough</del>. <a href="https://markdowntohtml.com">A link</a> to somewhere.</p>
-						<p>And code highlighting:</p>
-						<pre><code class="lang-js"><span class="hljs-keyword">var</span> foo = <span class="hljs-string">'bar'</span>;
+[Marked] lets you convert [Markdown] into HTML.  Markdown is a simple text format whose goal is to be very easy to read and write, even when not converted to HTML.  This demo page will let you type anything you like and see how it gets converted.  Live.  No more waiting around.
 
-						<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">baz</span><span class="hljs-params">(s)</span> </span>{
-						<span class="hljs-keyword">return</span> foo + <span class="hljs-string">':'</span> + s;
-						}
-						</code></pre>
-						<p>Or inline code like <code>var foo = &#39;bar&#39;;</code>.</p>
-						<p>Or an image of bears</p>
-						<p><img src="http://placebear.com/200/200" alt="bears"></p>
-						<p>The end ...</p>
-					`);
+How To Use The Demo
+-------------------
+
+1. Type in stuff on the left.
+2. See the live updates on the right.
+
+That's it.  Pretty simple.  There's also a drop-down option in the upper right to switch between various views:
+
+- **Preview:**  A live display of the generated HTML as it would render in a browser.
+- **HTML Source:**  The generated HTML before your browser makes it pretty.
+- **Lexer Data:**  What [marked] uses internally, in case you like gory stuff like this.
+- **Quick Reference:**  A brief run-down of how to format things using markdown.
+
+Why Markdown?
+-------------
+
+It's easy.  It's not overly bloated, unlike HTML.  Also, as the creator of [markdown] says,
+
+> The overriding design goal for Markdown's
+> formatting syntax is to make it as readable
+> as possible. The idea is that a
+> Markdown-formatted document should be
+> publishable as-is, as plain text, without
+> looking like it's been marked up with tags
+> or formatting instructions.
+
+Ready to start writing?  Either start changing stuff on the left or
+[clear everything](/demo/?text=) with a simple click.
+
+[Marked]: https://github.com/markedjs/marked/
+[Markdown]: http://daringfireball.net/projects/markdown/
+
+                    `;
                 }
             };
 

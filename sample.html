@@ -1,0 +1,35 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <title>Marked in the browser</title>
+</head>
+
+<body>
+    <div id="content"></div>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script>
+        // Override function
+        const renderer = {
+            heading(text, level) {
+                const escapedText = text.toLowerCase().replace(/[^\w]+/g, '-');
+
+                return `
+            <h${level}>
+              <a name="${escapedText}" class="anchor" href="#${escapedText}">
+                <span class="header-link">♪</span>
+              </a>
+              ${text}
+            </h${level}>`;
+            }
+        };
+
+        marked.use({ renderer });
+
+        document.getElementById('content').innerHTML =
+            marked('# Marked in the browser\n\nRendered by **marked**.');
+    </script>
+</body>
+
+</html>
