@@ -6,7 +6,7 @@ const renderer = {
         return `
             <h${level}>
               <a name="${escapedText}" class="anchor" href="#${escapedText}">
-                <span class="header-link">♪</span>
+                <span class="header-link"></span>
               </a>
               ${text}
             </h${level}>`;
@@ -62,6 +62,28 @@ const description = {
         }
     }
 };
+
+const audio = {
+    name: 'audio',
+    level: 'inline',                                 // Is this a block-level or inline-level tokenizer?
+    start(src) { return src.match(/\?/)?.index; },    // Hint to Marked.js to stop and check for a match
+    tokenizer(src, tokens) {
+        const rule = /^!?\[(label)\]\(\s*(href)(?:\s+(title))?\s*\)/;  // Regex for the complete token
+        const match = rule.exec(src);
+        if (match) {
+            return {                                         // Token to generate
+                type: 'audio',                           // Should match "name" above
+                raw: match[0],                                 // Text to consume from the source
+                dt: this.lexer.inlineTokens(match[1].trim()),  // Additional custom properties, including
+                dd: this.lexer.inlineTokens(match[2].trim())   //   any further-nested inline tokens
+            };
+        }
+    },
+    renderer(token) {
+        return `\n<audio>${this.parser.parseInline(token.dt)}</audio>`;
+    },
+};
+
 
 marked.use({ extensions: [descriptionlist, description] });
 marked.use({ renderer });
