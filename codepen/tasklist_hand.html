@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Play Task List</title>
+
+        <link rel="stylesheet" href="../css/tailwind.min.css">
+        <script src="../js/alpine.js" defer></script>
+
+        <style>
+            [x-cloak] {
+                display: none;
+            }
+
+            .form-radio {
+                -webkit-appearance: none;
+                -moz-appearance: none;
+                appearance: none;
+                -webkit-print-color-adjust: exact;
+                color-adjust: exact;
+                display: inline-block;
+                vertical-align: middle;
+                background-origin: border-box;
+                -webkit-user-select: none;
+                -moz-user-select: none;
+                -ms-user-select: none;
+                user-select: none;
+                flex-shrink: 0;
+                color: currentColor;
+                background-color: #fff;
+                border-color: #e2e8f0;
+                border-width: 1px;
+                height: 1.4em;
+                width: 1.4em;
+            }
+
+            .form-radio {
+                border-radius: 50%;
+            }
+
+            .form-radio:checked {
+                background-image: url("data:image/svg+xml,%3csvg viewBox='0 0 16 16' fill='white' xmlns='http://www.w3.org/2000/svg'%3e%3ccircle cx='8' cy='8' r='3'/%3e%3c/svg%3e");
+                border-color: transparent;
+                background-color: currentColor;
+                background-size: 100% 100%;
+                background-position: center;
+                background-repeat: no-repeat;
+            }
+        </style>
+    </head>
+
+    <body translate="no" class="antialiased sans-serif bg-gray-300">
+
+        <!-- Alert Box -->
+        <div class="fixed w-full z-50 flex inset-0 items-start justify-center pointer-events-none md:mt-5" x-data="{
+        message: '',
+        showFlashMessage(event){
+            this.message=event.detail.message;
+            setTimeout(() => this.message='',3000)
+        }        
+    }">
+            <template x-on:flash.window="showFlashMessage(event)"></template>
+            <template x-if="message">
+                <div role="alert" x-transition:enter="transition ease-out duration-300 transform" x-transition:enter-start="-translate-y-5 opacity-0" x-transition:enter-end="-translate-y-5 opacity-0" x-transition:enter-start="-translate-y-5 opacity-0" x-transition:enter-start="-translate-y-5 opacity-0" x-transition:enter-start="-translate-y-5 opacity-0">
+                    <div class="flex items-center">
+                        <div class="flex-shrink-0 mr-3">
+                            <svg class="h-6 w-6 text-gray-400" viewBox="0 0 20 20" fill="currentColor">
+                                <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd" />
+                            </svg>
+                        </div>
+                        <div class="text-gray-200 text-base" x-text="message"></div>
+                    </div>
+                </div>
+            </template>
+        </div>
+        <!-- /Alert Box -->
+
+    </body>
+
+</html>
