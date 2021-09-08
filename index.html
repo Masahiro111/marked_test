@@ -1,166 +1,175 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<head>
+    <head>
 
-    <meta charset="UTF-8">
+        <meta charset="UTF-8">
 
-    <link rel="apple-touch-icon" type="image/png"
-        href="https://cpwebassets.codepen.io/assets/favicon/apple-touch-icon-5ae1a0698dcc2402e9712f7d01ed509a57814f994c660df9f7a952f3060705ee.png" />
-    <meta name="apple-mobile-web-app-title" content="CodePen">
+        <link rel="apple-touch-icon" type="image/png"
+              href="https://cpwebassets.codepen.io/assets/favicon/apple-touch-icon-5ae1a0698dcc2402e9712f7d01ed509a57814f994c660df9f7a952f3060705ee.png" />
+        <meta name="apple-mobile-web-app-title" content="CodePen">
 
-    <title>CodePen - Markdown Editor with Codemirror and AlpineJS</title>
-    <link rel="stylesheet" href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" />
-    <link rel="stylesheet" href="https://unpkg.com/@tailwindcss/typography@0.2.x/dist/typography.min.css" />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/codemirror@5.59.2/lib/codemirror.min.css" />
-    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap"
-        rel="stylesheet">
-
-
-
-    <style>
-        html {
-            scroll-behavior: smooth;
-            font-family: 'Space Grotesk', sans-serif;
-        }
-
-        .cursive {
-            font-family: 'Nanum Pen Script', cursive;
-        }
-
-        [x-cloak] {
-            display: none;
-        }
-
-        .CodeMirror-focused {
-            border-radius: .375rem;
-            outline: 2px solid transparent;
-            outline-offset: 2px;
-            --tw-ring-opacity: 0.5;
-            --tw-ring-color: rgba(199, 210, 254, var(--tw-ring-opacity));
-            --tw-ring-offset-shadow: var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color);
-            --tw-ring-shadow: var(--tw-ring-inset) 0 0 0 calc(3px + var(--tw-ring-offset-width)) var(--tw-ring-color);
-            box-shadow: var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow, 0 0 #0000);
-        }
-
-        .CodeMirror {
-            padding: 0.75rem;
-            font-family: inherit;
-            font-size: inherit;
-            border-bottom-left-radius: .375rem;
-            border-bottom-right-radius: .375rem;
-            --tw-border-opacity: 1;
-            border: 1px solid rgba(209, 213, 219, var(--tw-border-opacity));
-        }
-
-        .CodeMirror.CodeMirror-focused {
-            --tw-border-opacity: 1;
-            border-color: rgba(165, 180, 252, var(--tw-border-opacity));
-        }
-
-        .cm-s-default .cm-header,
-        .cm-s-default .cm-variable-2 {
-            color: rgb(31, 41, 55);
-        }
-    </style>
+        <title>CodePen - Markdown Editor with Codemirror and AlpineJS</title>
+        <link rel="stylesheet" href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" />
+        <link rel="stylesheet" href="https://unpkg.com/@tailwindcss/typography@0.2.x/dist/typography.min.css" />
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/codemirror@5.59.2/lib/codemirror.min.css" />
+        <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap"
+              rel="stylesheet">
 
 
-</head>
 
-<body translate="no">
-    <div class="px-4 max-w-4xl mx-auto min-h-screen py-12">
+        <style>
+            html {
+                scroll-behavior: smooth;
+                font-family: 'Space Grotesk', sans-serif;
+            }
 
-        <div class="text-4xl font-bold tracking-tight mb-4 text-center">
-            <span class="bg-clip-text text-transparent bg-gradient-to-r from-blue-500 to-green-400 ">
-                Markdown Editor with Codemirror and AlpineJS
-            </span>
-        </div>
+            .cursive {
+                font-family: 'Nanum Pen Script', cursive;
+            }
 
-        <div x-data="markdown()" x-init="
-				convertHtmlToMarkdown();
-				codeMirrorEditor = CodeMirror.fromTextArea($refs.input, {
-					mode: 'markdown',
-					theme: 'default',
-					lineWrapping: true
-				});
+            [x-cloak] {
+                display: none;
+            }
 
-				codeMirrorEditor.setValue(content);
-				codeMirrorEditor.setSize('100%', height);
-				setTimeout(function() {
-					codeMirrorEditor.refresh();
-				}, 1);
+            .CodeMirror-focused {
+                border-radius: .375rem;
+                outline: 2px solid transparent;
+                outline-offset: 2px;
+                --tw-ring-opacity: 0.5;
+                --tw-ring-color: rgba(199, 210, 254, var(--tw-ring-opacity));
+                --tw-ring-offset-shadow: var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color);
+                --tw-ring-shadow: var(--tw-ring-inset) 0 0 0 calc(3px + var(--tw-ring-offset-width)) var(--tw-ring-color);
+                box-shadow: var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow, 0 0 #0000);
+            }
 
-				codeMirrorEditor.on('change', () => content = codeMirrorEditor.getValue())
-			" class="relative" x-cloak>
-            <div class="bg-gray-50 border border-b-0 border-gray-300 top-0 left-0 right-0 block rounded-t-md">
-                <button type="button" class="py-2 px-4 inline-block text-gray-400 font-semibold"
-                    :class="{ 'text-indigo-600': tab === 'write' }"
-                    x-on:click.prevent="tab = 'write'; showConvertedMarkdown = false">Write</button>
-                <button type="button" class="py-2 px-4 inline-block text-gray-400 font-semibold"
-                    :class="{ 'text-indigo-600': tab === 'preview' && showConvertedMarkdown === true }"
-                    x-on:click.prevent="tab = 'preview'; convertedMarkdown()">Preview</button>
+            .CodeMirror {
+                padding: 0.75rem;
+                font-family: inherit;
+                font-size: inherit;
+                border-bottom-left-radius: .375rem;
+                border-bottom-right-radius: .375rem;
+                --tw-border-opacity: 1;
+                border: 1px solid rgba(209, 213, 219, var(--tw-border-opacity));
+            }
+
+            .CodeMirror.CodeMirror-focused {
+                --tw-border-opacity: 1;
+                border-color: rgba(165, 180, 252, var(--tw-border-opacity));
+            }
+
+            .cm-s-default .cm-header,
+            .cm-s-default .cm-variable-2 {
+                color: rgb(31, 41, 55);
+            }
+        </style>
+
+
+    </head>
+
+    <body translate="no">
+        <div class="px-4 max-w-4xl mx-auto min-h-screen py-12">
+
+            <div class="text-4xl font-bold tracking-tight mb-4 text-center">
+                <span class="bg-clip-text text-transparent bg-gradient-to-r from-blue-500 to-green-400 ">
+                    Markdown Editor with Codemirror and AlpineJS
+                </span>
             </div>
 
-            <div x-show="! showConvertedMarkdown">
-                <div>
-                    <textarea id="{{ $id }}" x-ref="input" x-model.debounce.750ms="content" class="hidden"
-                        name="content"></textarea>
+            <div
+                 x-data="markdown()"
+                 x-init="
+                    convertHtmlToMarkdown();
+                    codeMirrorEditor = CodeMirror.fromTextArea($refs.input, {
+                        mode: 'markdown',
+                        theme: 'default',
+                        lineWrapping: true
+                    });
+
+                    codeMirrorEditor.setValue(content);
+                    codeMirrorEditor.setSize('100%', height);
+                    setTimeout(function() {
+                        codeMirrorEditor.refresh();
+                    }, 1);
+
+                    codeMirrorEditor.on('change', () => content = codeMirrorEditor.getValue())
+                    "
+                 class="relative"
+                 x-cloak>
+
+                <div class="bg-gray-50 border border-b-0 border-gray-300 top-0 left-0 right-0 block rounded-t-md">
+                    <button type="button" class="py-2 px-4 inline-block text-gray-400 font-semibold"
+                            :class="{ 'text-indigo-600': tab === 'write' }"
+                            x-on:click.prevent="tab = 'write'; showConvertedMarkdown = false">Write</button>
+                    <button type="button" class="py-2 px-4 inline-block text-gray-400 font-semibold"
+                            :class="{ 'text-indigo-600': tab === 'preview' && showConvertedMarkdown === true }"
+                            x-on:click.prevent="tab = 'preview'; convertedMarkdown()">Preview</button>
+                </div>
+
+                <div x-show="! showConvertedMarkdown">
+                    <div>
+                        <textarea id="{{ $id }}" x-ref="input" x-model.debounce.750ms="content" class="hidden"
+                                  name="content"></textarea>
+                    </div>
+                </div>
+
+                <div x-show="showConvertedMarkdown">
+                    <div x-html="convertedContent"
+                         class="w-full prose max-w-none prose-indigo leading-6 rounded-b-md shadow-sm border border-gray-300 p-5 bg-white overflow-y-auto"
+                         :style="`height: ${height}; max-width: 100%`"></div>
                 </div>
             </div>
 
-            <div x-show="showConvertedMarkdown">
-                <div x-html="convertedContent"
-                    class="w-full prose max-w-none prose-indigo leading-6 rounded-b-md shadow-sm border border-gray-300 p-5 bg-white overflow-y-auto"
-                    :style="`height: ${height}; max-width: 100%`"></div>
-            </div>
+            <div class="mt-6 text-gray-500 text-sm text-center">Created by <a class="text-indigo-500 underline"
+                   href="https://twitter.com/mithicher">@mithicher</a>.</div>
         </div>
 
-        <div class="mt-6 text-gray-500 text-sm text-center">Created by <a class="text-indigo-500 underline"
-                href="https://twitter.com/mithicher">@mithicher</a>.</div>
-    </div>
+        <script src='https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.8.0/dist/alpine.min.js'></script>
+        <script src='https://cdn.jsdelivr.net/npm/codemirror@5.59.2/lib/codemirror.min.js'></script>
+        <script src='https://cdn.jsdelivr.net/npm/codemirror@5.59.2/mode/markdown/markdown.js'></script>
+        <script src='https://cdn.jsdelivr.net/npm/turndown@7.0.0/dist/turndown.min.js'></script>
+        <script src='https://cdnjs.cloudflare.com/ajax/libs/marked/3.0.2/marked.min.js'></script>
+        <script id="rendered-js">
+            function markdown() {
 
-    <script src='https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.8.0/dist/alpine.min.js'></script>
-    <script src='https://cdn.jsdelivr.net/npm/codemirror@5.59.2/lib/codemirror.min.js'></script>
-    <script src='https://cdn.jsdelivr.net/npm/codemirror@5.59.2/mode/markdown/markdown.js'></script>
-    <script src='https://cdn.jsdelivr.net/npm/turndown@7.0.0/dist/turndown.min.js'></script>
-    <script src='https://cdnjs.cloudflare.com/ajax/libs/marked/3.0.2/marked.min.js'></script>
-    <script id="rendered-js">
-        function markdown() {
+                const renderer = {
+                    heading(text, level) {
+                        const escapedText = text.toLowerCase().replace(/[^\w]+/g, '-');
 
-            const renderer = {
-                heading(text, level) {
-                    const escapedText = text.toLowerCase().replace(/[^\w]+/g, '-');
-
-                    return `
+                        return `
             <h${level}>
               <a name="${escapedText}" class="anchor" href="#${escapedText}">
                 <span class="header-link"></span>
               </a>
               ${text}
             </h${level}>`;
-                }
-            };
+                    }
+                };
 
-            marked.use({ renderer });
+                marked.use({
+                    renderer
+                });
 
-            return {
-                height: '500px',
-                tab: 'write',
-                content: '',
-                showConvertedMarkdown: false,
-                convertedContent: '',
-                convertedMarkdown() {
-                    // marked setting
+                return {
+                    height: '500px',
+                    tab: 'write',
+                    content: '',
+                    showConvertedMarkdown: false,
+                    convertedContent: '',
+                    convertedMarkdown() {
+                        // marked setting
 
-                    this.showConvertedMarkdown = true;
-                    this.convertedContent = marked(this.content, { sanitize: true });
-                },
-                convertHtmlToMarkdown() {
-                    // turndownService = new TurndownService({
-                    //     headingStyle: 'atx',
-                    //     codeBlockStyle: 'fenced'
-                    // });
-                    this.content = `
+                        this.showConvertedMarkdown = true;
+                        this.convertedContent = marked(this.content, {
+                            sanitize: true
+                        });
+                    },
+                    convertHtmlToMarkdown() {
+                        // turndownService = new TurndownService({
+                        //     headingStyle: 'atx',
+                        //     codeBlockStyle: 'fenced'
+                        // });
+                        this.content = `
 # This is head.
 
 Marked - Markdown Parser
@@ -201,15 +210,15 @@ Ready to start writing?  Either start changing stuff on the left or
 [Markdown]: http://daringfireball.net/projects/markdown/
 
                     `;
-                }
-            };
+                    }
+                };
 
-        }
-//# sourceURL=pen.js
-    </script>
+            }
+            //# sourceURL=pen.js
+        </script>
 
 
 
-</body>
+    </body>
 
 </html>
