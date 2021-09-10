@@ -29,6 +29,16 @@
             <div x-show="show">some content</div>
         </div>
 
+
+        <div x-data="{ number: 0 }">
+            <button x-on:click="number++">Increment</button>
+            <div x-text="number"></div>
+            <div x-show="number > 10">
+                That is a big number
+            </div>
+        </div>
+
+
     </body>
 
 </html>
