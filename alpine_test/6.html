@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Document</title>
+        <script src="https://unpkg.com/alpinejs" defer></script>
+    </head>
+
+    <body>
+        <div x-data="{ agreed: false }">
+            <input type="checkbox" x-model="agreed">
+            <span x-show="agreed">
+                you havse agreed
+            </span>
+            <span x-text="agreed"></span>
+        </div>
+
+        <hr>
+
+        <form
+              x-data="{ 
+                records : [],
+                deleteUsers () {
+                    console.log(this.records)
+                }
+            }"
+              x-on:submit.prevent="deleteUsers">
+            <input type="checkbox" x-model="records" value="1">Alex
+            <input type="checkbox" x-model="records" value="2">Billy
+            <input type="checkbox" x-model="records" value="3">Mabel
+
+            <button type="submit">delete</button>
+
+        </form>
+
+        <hr>
+
+        <div x-data="{ plan: 'monthly' }">
+            <select x-model="plan">
+                <option value="">please choose</option>
+                <option value="yearly">yearly</option>
+                <option value="monthly">monthly</option>
+            </select>
+
+            <span x-show="plan" x-text="`you have shosen the ${plan}`"></span>
+        </div>
+
+        <hr>
+
+        <div x-data="{  plan: 'monthly' }">
+
+        </div>
+
+
+    </body>
+
+</html>
