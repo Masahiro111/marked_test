@@ -14,7 +14,19 @@
 
         <div x-data="{ visible: false }">
             <div x-show="visible">some content</div>
+        </div>
 
+        <hr>
+
+        <div x-data="{ records: [1,2,3,4,5] }">
+            <div x-show="records.length > 1">some content</div>
+        </div>
+
+        <hr>
+
+        <div x-data="{ show: false }">
+            <button x-on:click="show = !show">Show</button>
+            <div x-show="show">some content</div>
         </div>
 
     </body>
