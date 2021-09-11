@@ -53,13 +53,14 @@
 
         <body class="antialiased sans-serif bg-gray-300">
             <!-- Alert Box -->
-            <div class="fixed w-full z-50 flex inset-0 items-start justify-center pointer-events-none md:mt-5" x-data="{ 
-			message: '', 
-			showFlashMessage(event) {
-				this.message = event.detail.message; 
-				setTimeout(() => this.message = '', 3000) 
-			} 
-		}">
+            <div class="fixed w-full z-50 flex inset-0 items-start justify-center pointer-events-none md:mt-5"
+                 x-data="{ 
+                    message: '', 
+                    showFlashMessage(event) {
+                        this.message = event.detail.message; 
+                        setTimeout(() => this.message = '', 3000) 
+                    } 
+		        }">
                 <template x-on:flash.window="showFlashMessage(event)"></template>
                 <template x-if="message">
                     <div role="alert"
@@ -83,19 +84,30 @@
             </div>
             <!-- /Alert Box -->
 
-            <div x-data="app()" x-init="getTasks()" x-cloak class="flex flex-col min-h-screen border-t-8" :class="`border-${colorSelected.value}-700`">
+            <!-- Main frame -->
+            <div
+                 x-data="app()"
+                 x-init="getTasks()"
+                 x-cloak
+                 class="flex flex-col min-h-screen border-t-8"
+                 :class="`border-${colorSelected.value}-700`">
                 <div class="flex-1">
 
                     <!-- Header -->
-                    <div class="bg-cover bg-center bg-no-repeat" :class="`bg-${colorSelected.value}-900`" :style="`background-image: url(${bannerImage})`">
+                    <div
+                         class="bg-cover bg-center bg-no-repeat"
+                         :class="`bg-${colorSelected.value}-900`"
+                         :style="`background-image: url(${bannerImage})`">
                         <div class="container mx-auto px-4 pt-4 md:pt-10 pb-40"></div>
                     </div>
                     <!-- /Header -->
 
+                    <!-- Contents body -->
                     <div class="container mx-auto px-4 py-4 -mt-40">
 
                         <!-- Welcome Page -->
-                        <div x-show="!localStorage.getItem('TG-username')">
+                        <div
+                             x-show="!localStorage.getItem('TG-username')">
                             <h2 class="font-bold text-blue-400 text-center text-3xl">Welcome to Tasksgram</h2>
                             <h2 class="text-gray-400 text-center mb-8 text-lg">Simple Kanban Board</h2>
                             <div class="bg-white rounded-lg p-6 md:p-10 md:max-w-md mx-auto shadow-md">
@@ -276,8 +288,10 @@
                         <!-- /Main Page -->
 
                     </div>
+                    <!-- /Contents body -->
 
                 </div>
+                <!-- Main frame -->
 
                 <!-- Footer -->
                 <div class="container mx-auto px-4 py-10">
@@ -328,41 +342,41 @@
                         username: '',
                         bannerImage: '',
                         colors: [{
-                                label: '#3182ce',
-                                value: 'blue'
-                            },
-                            {
-                                label: '#38a169',
-                                value: 'green'
-                            },
-                            {
-                                label: '#805ad5',
-                                value: 'purple'
-                            },
-                            {
-                                label: '#e53e3e',
-                                value: 'red'
-                            },
-                            {
-                                label: '#dd6b20',
-                                value: 'orange'
-                            },
-                            {
-                                label: '#5a67d8',
-                                value: 'indigo'
-                            },
-                            {
-                                label: '#319795',
-                                value: 'teal'
-                            },
-                            {
-                                label: '#718096',
-                                value: 'gray'
-                            },
-                            {
-                                label: '#d69e2e',
-                                value: 'yellow'
-                            }
+                            label: '#3182ce',
+                            value: 'blue'
+                        },
+                        {
+                            label: '#38a169',
+                            value: 'green'
+                        },
+                        {
+                            label: '#805ad5',
+                            value: 'purple'
+                        },
+                        {
+                            label: '#e53e3e',
+                            value: 'red'
+                        },
+                        {
+                            label: '#dd6b20',
+                            value: 'orange'
+                        },
+                        {
+                            label: '#5a67d8',
+                            value: 'indigo'
+                        },
+                        {
+                            label: '#319795',
+                            value: 'teal'
+                        },
+                        {
+                            label: '#718096',
+                            value: 'gray'
+                        },
+                        {
+                            label: '#d69e2e',
+                            value: 'yellow'
+                        }
                         ],
                         colorSelected: {
                             label: '#3182ce',
