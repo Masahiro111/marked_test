@@ -113,7 +113,11 @@
                             <h2 class="text-gray-400 text-center mb-8 text-lg">Simple Kanban Board</h2>
                             <div class="bg-white rounded-lg p-6 md:p-10 md:max-w-md mx-auto shadow-md">
                                 <label class="text-gray-800 block mb-1 font-bold text-sm tracking-wide">Name</label>
-                                <input class="bg-gray-200 appearance-none border-2 border-gray-200 rounded-lg w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-blue-500" type="text" x-model="username" placeholder="Enter your name and hit enter..." @keydown.enter="if (username == '') { return; } localStorage.setItem('TG-username', username); username = ''">
+                                <input class="bg-gray-200 appearance-none border-2 border-gray-200 rounded-lg w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-blue-500"
+                                       type="text"
+                                       x-model="username"
+                                       placeholder="Enter your name and hit enter..."
+                                       @keydown.enter="if (username == '') { return; } localStorage.setItem('TG-username', username); username = ''">
                             </div>
                         </div>
 
@@ -122,7 +126,11 @@
                             <div x-show.transition="showSettingsPage == true">
 
                                 <div class="mb-8">
-                                    <a href="#" @click.prevent="showSettingsPage = false" class="rounded-lg text-sm px-3 py-2 inline-flex" :class="`text-${colorSelected.value}-500 bg-${colorSelected.value}-800 hover:bg-${colorSelected.value}-700`">&larr;
+                                    <a
+                                       href="#"
+                                       @click.prevent="showSettingsPage = false"
+                                       class="rounded-lg text-sm px-3 py-2 inline-flex"
+                                       :class="`text-${colorSelected.value}-500 bg-${colorSelected.value}-800 hover:bg-${colorSelected.value}-700`">&larr;
                                         Go Back</a>
                                 </div>
 

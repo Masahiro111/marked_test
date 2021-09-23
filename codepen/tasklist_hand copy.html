@@ -84,6 +84,80 @@
         </div>
         <!-- /Alert Box -->
 
+        <!-- Main frame -->
+        <div
+             x-data="app()"
+             x-init="getTasks()"
+             x-cloak
+             class="flex flex-col min-h-screen border-t-8"
+             :class="`border-${colorSelected.value}-700`">
+            <div class="flex-1">
+
+                <!-- Header -->
+                <div
+                     class="bg-cover bg-center bg-no-repeat"
+                     :class="`bg-${colorSelected.value}-900`"
+                     :style="`background-image: url(${bannerImage})`">
+                    <div class="container mx-auto px-4 pt-4 md:pt-10 pb-40"></div>
+                </div>
+                <!-- /Header -->
+
+                <!-- Contents body -->
+                <div class="container mx-auto px-4 py-4 -mt-40">
+
+                    <!--Welcome Page  -->
+                    <div
+                         x-show="!localStorage.getItem('TG-username')">
+                        <h2 class="font-bold text-blue-400 text-center text-3xl">Welcome to Taskgram</h2>
+                        <h2 class="text-gray-400 text-center mb-8 text-lg">Simple Kanban Board</h2>
+                        <div class="bg-white rounded-lg p-6 md:p-10 md:max-w-md mx-auto shadow-md">
+                            <label class="text-gray-800 block mb-1 font-bold text-sm tracking-wide">Name</label>
+                            <input
+                                   class="bg-gray-200 appearance-none border-2 border-gray-200 rounded-lg w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-blue-500"
+                                   type="text"
+                                   placeholder="Enter your name"
+                                   x-on:keydown.enter="if(username==''){return;} localStorage.setItem('TG-username',username); username=''">
+                        </div>
+                    </div>
+                    <!-- /Welcome Page -->
+
+                    <!-- Settings Page -->
+                    <div x-show.immediate="showSettingsPage == true">
+                        <div x-show.transition="showSettingsPage == true">
+
+                            <div class="mb-8">
+                                <a
+                                   href="#"
+                                   x-on:click.prevent="showSettingsPage = false"
+                                   class="rounded-lg text-sm px-3 py-2 inline-flex"
+                                   :class="`text-${colorSelected.value}-500 bg-${colorSelected.value}-800 hover:bg-${colorSelected.value}-700`">&larr;
+                                    GoBack</a>
+                            </div>
+
+                            <div>
+                                <h2></h2>
+
+                                <div>
+                                    <label for=""></label>
+                                    <input type="text">
+                                </div>
+                            </div>
+
+
+                        </div>
+                    </div>
+
+                    <!-- /Settings Page -->
+
+
+                </div>
+                <!-- Contents body -->
+
+
+            </div>
+        </div>
+
+        <!-- /Main frame -->
 
 
 
