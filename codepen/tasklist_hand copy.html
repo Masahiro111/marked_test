@@ -50,6 +50,7 @@
     </head>
 
     <body translate="no">
+
         <!-- Alert Box -->
         <div
              class="fixed w-full z-50 flex inset-0 items-start justify-center pointer-events-none md:mt-5"
@@ -65,8 +66,8 @@
                 <div
                      role="alert"
                      x-transition:enter="transition ease-out duration-300 transform"
-                     x-transition:enter-start="translate-y-5 opacity-0"
-                     x-transition:enter-end="translate-y-0 opacity-100"
+                     x-transition:enter-start="-translate-y-5 opacity-0"
+                     x-transition:enter-end="translate-y-0 opacity-0"
                      x-transition:leave="transition ease-in duration-100 transform"
                      x-transition:leave-start="opacity-100"
                      x-transition:leave-end="opacity-0 -translate-y-5"
@@ -77,12 +78,15 @@
                                 <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd" />
                             </svg>
                         </div>
-                        <div class="text-gray-200 text-base" x-text="message"></div>
+                        <div
+                             class="text-gray-200 text-base"
+                             x-text="message"></div>
                     </div>
                 </div>
             </template>
         </div>
         <!-- /Alert Box -->
+
 
         <!-- Main frame -->
         <div
@@ -97,7 +101,7 @@
                 <div
                      class="bg-cover bg-center bg-no-repeat"
                      :class="`bg-${colorSelected.value}-900`"
-                     :style="`background-image: url(${bannerImage})`">
+                     :style="`background-image: url(${barnnerImage})`">
                     <div class="container mx-auto px-4 pt-4 md:pt-10 pb-40"></div>
                 </div>
                 <!-- /Header -->
@@ -105,109 +109,47 @@
                 <!-- Contents body -->
                 <div class="container mx-auto px-4 py-4 -mt-40">
 
-                    <!--Welcome Page  -->
-                    <div
-                         x-show="!localStorage.getItem('TG-username')">
+                    <!-- Welcome Page -->
+                    <div x-show="!localStorage.getItem('TG-username')">
                         <h2 class="font-bold text-blue-400 text-center text-3xl">Welcome to Taskgram</h2>
                         <h2 class="text-gray-400 text-center mb-8 text-lg">Simple Kanban Board</h2>
                         <div class="bg-white rounded-lg p-6 md:p-10 md:max-w-md mx-auto shadow-md">
                             <label class="text-gray-800 block mb-1 font-bold text-sm tracking-wide">Name</label>
                             <input
-                                   class="bg-gray-200 appearance-none border-2 border-gray-200 rounded-lg w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-blue-500"
                                    type="text"
+                                   class="bg-gray-200 appearance-none border-2 border-gray-200 rounded-lg w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-blue-500"
                                    placeholder="Enter your name"
-                                   x-on:keydown.enter="if(username==''){return;} localStorage.setItem('TG-username',username); username=''">
+                                   x-on:keydown.enter="if(usernam==''){return;} localStorage.setItem('TG-username', username); username=''">
                         </div>
                     </div>
-                    <!-- /Welcome Page -->
 
-                    <!-- Settings Page -->
+                    <!-- Setting Page -->
                     <div x-show.immediate="showSettingsPage == true">
                         <div x-show.transition="showSettingsPage == true">
 
                             <div class="mb-8">
-                                <a
-                                   href="#"
-                                   x-on:click.prevent="showSettingsPage = false"
-                                   class="rounded-lg text-sm px-3 py-2 inline-flex"
-                                   :class="`text-${colorSelected.value}-500 bg-${colorSelected.value}-800 hover:bg-${colorSelected.value}-700`">&larr;
-                                    GoBack</a>
-                            </div>
-
-                            <div
-                                 class="p-6 bg-white rounded-lg shadow-md md:max-w-4xl"
-                                 style="min-height:  150px;">
-                                <h2 class="font-bold text-gray-800 mb-3 text-2xl">Settings</h2>
-
-                                <div class="mb-5">
-                                    <label class="text-gray-800 block mb-1 font-bold text-sm">Name</label>
-                                    <input
-                                           class="bg-gray-200 appearance-none border-2 border-gray-200 rounded-lg w-full md:w-64 py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-blue-500"
-                                           type="text"
-                                           x-model="username"
-                                           placeholder="Enter your name">
-                                </div>
-
-                                <div class="mb-5">
-                                    <div class="flex items-center">
-                                        <div>
-                                            <label
-                                                   for="colorSelected"
-                                                   class="text-gray-800 block font-bold mb-1 text-sm">Select a theme</label>
-
-                                            <div class="px-1">
-                                                <div class="flex flex-wrap -mx-2">
-                                                    <template x-for="( color, index) in colors" :key="index">
-                                                        <div class="px-2">
-                                                            <template x-if="colorSelected.value === color.value">
-                                                                <div
-                                                                     class="w-8 h-8 inline-flex rounded-full cursor-pointer border-4 border-white"
-                                                                     :style="`background: ${color.label}; box-shadow: 0 0 0 2px rgba(0,0,0,0.2);`">
-                                                                </div>
-                                                            </template>
-
-                                                            <template x-if="colorSelected.value != color.value">
-                                                                <div
-                                                                     @click="colorSelected = color"
-                                                                     @keydown.enter="colorSelected = color"
-                                                                     role="checkbox"
-                                                                     tabindex="0"
-                                                                     :aria-checked="colorSelected"
-                                                                     class="w-8 h-8 inline-flex rounded-full cursor-pointer border-4 border-white focus:outline-none focus:shadow-outline"
-                                                                     :style="`background: ${color.label};`"></div>
-                                                            </template>
-                                                        </div>
-                                                    </template>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="mb-5">
-                                    <label class="text-gray-800 block mb-1 font-bold text-sm">
-                                        Banner image <small class="text-gray-500 text-xs">(optional)</small>
-                                    </label>
-                                    <input class="bg-gray-200 appearance-none border-2 border-gray-200 rounded-lg w-full md:w-1/2 py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-blue-500" type="url" x-model="bannerImage" placeholder="eg. https://picsum.photos/1200/400?random=2">
-                                </div>
-
 
                             </div>
-
-
                         </div>
                     </div>
 
-                    <!-- /Settings Page -->
+                    <!-- Main Page -->
 
 
                 </div>
-                <!-- Contents body -->
-
-
             </div>
+
         </div>
 
+
+
+        <!-- Footer -->
+
+        <!-- /Footer -->
+
+        <!-- Modal -->
+
+        <!-- /Modal -->
         <!-- /Main frame -->
 
 
