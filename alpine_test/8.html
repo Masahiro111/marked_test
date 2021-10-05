@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Document</title>
+        <script src="//unpkg.com/alpinejs" defer></script>
+        <style>
+            .bold {
+                font-weight: bold;
+            }
+
+            .progress {
+                height: 10px;
+                width: 300px;
+                background: #ccc;
+            }
+
+            .progress-inner {
+                height: 10px;
+                background: slategray;
+            }
+        </style>
+
+    </head>
+
+    <body>
+
+        <div
+             x-data="{
+                 selected: [],
+                 people: [
+                    { id: 1, name:'Alex' },
+                    { id: 2, name:'Billy' },
+                    { id: 3, name:'Cally' },
+                 ]
+             }">
+            <span x-text="selected"></span>
+            <template x-for="person in people">
+                <div>
+                    <input
+                           type="checkbox"
+                           x-bind:value="person.id"
+                           x-bind:id="`person_${person.id}`"
+                           x-model.number="selected">
+                    <span x-text="person.name" x-bind:class="{ 'bold': selected.includes(person.id) }"></span>
+                </div>
+            </template>
+        </div>
+
+        <hr>
+
+        <div
+             class="progress"
+             x-data="{
+                 progress : 0,
+                 increament () {
+                     this.progress++
+                 },
+                 init () {
+                     let interval =  setInterval (() => {
+                         if(this.progress > 100){
+                            clearInterval(interval)
+                         }
+                         this.increament()
+                     },500) 
+                 }
+                }">
+            <div class="progress-inner" x-bind:style="`width: ${progress}%`"></div>
+            <button x-on:click="increament">Increment</button>
+        </div>
+
+    </body>
+
+</html>
