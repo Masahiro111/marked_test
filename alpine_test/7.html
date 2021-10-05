@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Document</title>
+        <script src="//unpkg.com/alpinejs" defer></script>
+    </head>
+
+    <style>
+        .bold {
+            font-weight: bold;
+        }
+
+        .blue {
+            color: blue;
+        }
+    </style>
+
+    <body>
+
+        <div x-data="{ bold : false}">
+            <span class="blue" x-bind:class="{'bold': true}">Am Id bold?</span>
+        </div>
+
+        <hr>
+
+        <div x-data="{ selected : false}">
+            <span x-bind:class="{'bold': selected}">Am Id bold?</span>
+
+            <button x-on:click="selected = !selected">click</button>
+        </div>
+
+        <hr>
+
+        <form x-data="{ name: ''}" x-on:submit.prevent="alert(`Hey ${name}`)">
+            <input type="text" x-model="name">
+            <button type="submit" x-bind:disabled=" name==='' ">Let's go</button>
+        </form>
+
+        <hr>
+
+        <div x-data="{ progress: 0 }">
+            <progress max="100" x-bind:value="progress" value="0">
+                <span x-text="`${progress}%`"></span>
+            </progress>
+
+            <button x-on:click="progress = progress + 5">Increament</button>
+
+        </div>
+
+    </body>
+
+</html>

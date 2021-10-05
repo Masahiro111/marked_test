@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Document</title>
+        <link rel="stylesheet" href="./css/tailwind.min.css">
+        <script src="./js/alpine.js"></script>
+    </head>
+
+    <body>
+        <div x-data="{ foo: 'bar' }" x-init="foo = 'baz'">
+            <div x-text="foo"></div>
+        </div>
+
+        <hr>
+        <div x-data="{name: 'DOM初期化後の値'}" x-init="console.log($refs.nameInput.value)">
+            <input
+                   type="text"
+                   x-ref="nameInput"
+                   value="DOM初期化前の値yeah" />
+        </div>
+
+        <hr>
+
+        <div
+             x-data="{name: 'DOM初期化後の値', inputType: 'radio'}"
+             x-init="() => $refs.nameInput.value = 'hello!' ">
+            <input
+                   type="text"
+                   x-ref="nameInput"
+                   value="DOM初期化前の値yeah" />
+
+            <hr>
+
+            <input x-bind:type="inputType">
+        </div>
+
+        <hr>
+
+        <div
+             x-data="{inputType: 'radio'}">
+
+            <hr>
+
+            <input x-bind:type="inputType">
+
+            <button x-on:click="inputType = 'checkbox'">チェックボックスにしたい！</button>
+            <button x-on:click="inputType = 'radio'">ラジオボタンにしたい！</button>
+            <button x-on:click="inputType = 'text'">テキストボックスにしたい！</button>
+        </div>
+
+    </body>
+
+</html>
